@@ -1,0 +1,28 @@
+PATH
+  remote: .
+  specs:
+    rock_hard_abs (0.0.1)
+      colorize
+      rr
+      rspec
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    colorize (0.5.8)
+    diff-lcs (1.1.3)
+    rr (1.0.4)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.4)
+    rspec-expectations (2.6.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rock_hard_abs!

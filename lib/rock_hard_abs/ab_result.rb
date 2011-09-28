@@ -17,5 +17,11 @@ module RockHardAbs
     def failed_requests
       raw.match(/Failed requests:\s*([\d\.]+)/)[1].to_i
     end
+
+    def log
+      RockHardAbs::Logger.log :ab_result, "Average Response Time: #{avg_response_time}"
+      RockHardAbs::Logger.log :ab_result, "Queries per Second: #{queries_per_second}"
+      RockHardAbs::Logger.log :ab_result, "Failed requests: #{failed_requests}"
+    end
   end
 end

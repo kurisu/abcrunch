@@ -16,8 +16,7 @@ module RockHardAbs
           min_response_result = abr
         end
       end
-      RockHardAbs::Logger.log :success, "Best response time was #{min_response_time}, with:"
-      min_response_result.log
+      RockHardAbs::Logger.log :progress, "Best response time was #{min_response_time}"
       min_response_result
     end
   end

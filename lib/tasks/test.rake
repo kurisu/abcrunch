@@ -8,4 +8,10 @@ namespace :test do
     }
     RockHardAbs::BestRun.of_avg_response_time 5, ab_options
   end
+
+  desc "Test strategy: QPS at best concurrency"
+  task 'qps_concurrency' do
+    RockHardAbs::StrategyQpsAtBestConcurrency.run('http://www.truecar.com/')
+  end
+
 end

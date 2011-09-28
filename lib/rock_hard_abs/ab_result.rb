@@ -1,9 +1,15 @@
 module RockHardAbs
   class AbResult
     attr_accessor :raw
+    attr_accessor :ab_options
 
-    def initialize(raw_ab_output)
+    def initialize(raw_ab_output, ab_options)
       @raw = raw_ab_output
+      @ab_options = ab_options
+    end
+
+    def command
+      RockHardAbs::AbRunner.ab_command(@ab_options)
     end
 
     def avg_response_time
@@ -19,6 +25,7 @@ module RockHardAbs
     end
 
     def log
+      RockHardAbs::Logger.log :ab_result, "#{command}"
       RockHardAbs::Logger.log :ab_result, "Average Response Time: #{avg_response_time}"
       RockHardAbs::Logger.log :ab_result, "Queries per Second: #{queries_per_second}"
       RockHardAbs::Logger.log :ab_result, "Failed requests: #{failed_requests}"

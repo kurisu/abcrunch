@@ -8,8 +8,11 @@ module RockHardAbs
       {
         :info => :white,
         :success => :light_green,
+        :result => :light_green,
+        :progress => :green,
         :ab_result => :cyan,
         :task => :light_white,
+        :strategy => :light_white,
       }[type]
     end
 
@@ -17,8 +20,11 @@ module RockHardAbs
       {
         :info => '  ',
         :success => '  ',
+        :result => '  ',
+        :progress => '  ',
         :ab_result => '    ',
-        :task => "\n",
+        :task => "\n ",
+        :strategy => "\n\n",
       }[type]
     end
 

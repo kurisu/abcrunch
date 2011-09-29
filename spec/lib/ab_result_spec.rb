@@ -6,9 +6,19 @@ describe "RockHardAbs::AbResult" do
   end
 
   describe "#initialize" do
-    it "should remember the provided raw ab output" do
-      abr = new_abr('foo')
+    it "should remember the provided raw ab output and options" do
+      abr = new_abr('foo', {:foo => 'bar'})
       abr.raw.should == 'foo'
+      abr.ab_options.should == {:foo => 'bar'}
+    end
+  end
+
+  describe "#command" do
+    it "should return the ab command used to produce the result" do
+      ab_options = {:crunch => 'now'}
+      mock(RockHardAbs::AbRunner).ab_command(ab_options) { 'tight!' }
+      abr = new_abr('blah', ab_options)
+      abr.command.should == 'tight!'
     end
   end
 
@@ -47,6 +57,30 @@ describe "RockHardAbs::AbResult" do
       abr = new_abr("fleeblesnork\nFailed requests:        17\n\nblah")
       abr.failed_requests.should == 17
       abr.failed_requests.class.to_s.should == 'Fixnum'
+    end
+  end
+
+  describe "#log" do
+    it "should log command, avg response time,  queries per second, and failed requests" do
+      ab_options = {:crunch => 'now'}
+      abr = new_abr('blah', ab_options)
+      mock(abr).command { 'tight!' }
+      mock(abr).avg_response_time { "186" }
+      mock(abr).queries_per_second { "50" }
+      mock(abr).failed_requests { '10' }
+      #  ...
+      lines = []
+      stub(RockHardAbs::Logger).log { |*args|
+        args[0].should == :ab_result
+        lines << args[1]
+      }
+      abr.log
+      lines.should == [
+        'tight!',
+        'Average Response Time: 186',
+        'Queries per Second: 50',
+        'Failed requests: 10'
+      ]
     end
   end
 

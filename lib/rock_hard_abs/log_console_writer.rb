@@ -1,41 +1,31 @@
 require 'colorize'
 
 module RockHardAbs
-  module AbConsoleWriter
+  class LogConsoleWriter
     @@last_inline = false
 
+    TYPE_STYLES = {
+      :info => { :color => :white, :prefix => '  ' },
+      :test => { :color => :light_white, :prefix => "\n\n-----" },
+      :strategy => { :color => :light_white, :prefix => "\n" },
+      :task => { :color => :white, :prefix => "\n " },
+      :progress => { :color => :green, :prefix => '  ' },
+      :result => { :color => :light_green, :prefix => '  ' },
+      :ab_result => { :color => :cyan, :prefix => '    ' },
+      :success => { :color => :light_green, :prefix => '  ' },
+      :failure => { :color => :light_red, :prefix => '  ' },
+      :summary => { :color => :light_white, :prefix => '' },
+      :summary_passed => { :color => :light_green, :prefix => '' },
+      :summary_failed => { :color => :light_red, :prefix => '' },
+
+    }
+
     def self.color_for_type(type)
-      {
-        :info => :white,
-        :summary => :light_white,
-        :summary_passed => :light_green,
-        :summary_failed => :light_red,
-        :success => :light_green,
-        :failure => :light_red,
-        :result => :light_green,
-        :progress => :green,
-        :ab_result => :cyan,
-        :task => :light_white,
-        :strategy => :light_white,
-        :test => :light_white,
-      }[type]
+      TYPE_STYLES[type] ? TYPE_STYLES[type][:color] : :white
     end
 
     def self.prefix_for_type(type)
-      {
-        :info => '  ',
-        :summary => '',
-        :summary_passed => '',
-        :summary_failed => '',
-        :success => '  ',
-        :failure => '  ',
-        :result => '  ',
-        :progress => '  ',
-        :ab_result => '    ',
-        :task => "\n ",
-        :strategy => "\n",
-        :test => "\n\n-----",
-      }[type]
+      TYPE_STYLES[type] ? TYPE_STYLES[type][:prefix] : ''
     end
 
     def self.log(type, message, options = {})

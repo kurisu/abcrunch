@@ -7,6 +7,9 @@ module RockHardAbs
     def self.color_for_type(type)
       {
         :info => :white,
+        :summary => :light_white,
+        :summary_passed => :light_green,
+        :summary_failed => :light_red,
         :success => :light_green,
         :failure => :light_red,
         :result => :light_green,
@@ -21,6 +24,9 @@ module RockHardAbs
     def self.prefix_for_type(type)
       {
         :info => '  ',
+        :summary => '',
+        :summary_passed => '',
+        :summary_failed => '',
         :success => '  ',
         :failure => '  ',
         :result => '  ',

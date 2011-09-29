@@ -28,6 +28,11 @@ module RockHardAbs
         end
       end
 
+      if qps_result.failed_requests > 0
+        passed = false
+        errors << "Load test invalidated: #{qps_result.failed_requests} requests failed"
+      end
+
       if passed
         RockHardAbs::Logger.log :success, "PASSED"
       else
@@ -35,7 +40,7 @@ module RockHardAbs
         RockHardAbs::Logger.log :failure, "#{page[:name]} FAILED"
       end
 
-      passed
+      [passed, qps_result]
     end
   end
 end

@@ -31,6 +31,7 @@ module RockHardAbs
         prev_result = abr
         abr = RockHardAbs::BestRun.of_avg_response_time(options[:num_concurrency_runs], ab_options)
       end while abr.avg_response_time < threshold_ms
+      ab_options[:concurrency] -= 1
       prev_result || base_result
     end
 

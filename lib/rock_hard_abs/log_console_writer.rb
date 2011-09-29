@@ -15,6 +15,7 @@ module RockHardAbs
       :success => { :color => :light_green, :prefix => '  ' },
       :failure => { :color => :light_red, :prefix => '  ' },
       :summary => { :color => :light_white, :prefix => '' },
+      :summary_title => { :color => :light_white, :prefix => "\n==================== " },
       :summary_passed => { :color => :light_green, :prefix => '' },
       :summary_failed => { :color => :light_red, :prefix => '' },
 

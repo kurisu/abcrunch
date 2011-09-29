@@ -16,7 +16,7 @@ module RockHardAbs
     end
 
     def self.log_results(results)
-      RockHardAbs::Logger.log :summary, "======================================= Summary ======================================="
+      RockHardAbs::Logger.log :summary_title, "Summary"
       RockHardAbs::Logger.log :summary, "#{"Page".ljust(30, ' ')}#{"Response time".rjust(10, ' ')}  #{"Concurrency".rjust(16, ' ')}  #{"Queries/sec".rjust(12, ' ')}"
       results.each do |result|
         page_name = result[:page][:name].ljust(30, ' ')
@@ -29,7 +29,7 @@ module RockHardAbs
           RockHardAbs::Logger.log :summary_failed, "#{page_name}#{base_response_time}  #{max_concurrency}  #{queries_per_second}"
         end
       end
-      RockHardAbs::Logger.log :summary, "---------------------------------------------------------------------------------------"
+      RockHardAbs::Logger.log :summary_title, "Legend"
       RockHardAbs::Logger.log :summary, "Baseline = Best average response time (ms) over multiple runs with no concurrency"
       RockHardAbs::Logger.log :summary, "Max Concurrency = Most concurrent requests where best average response time doesn't bust our performance threshold"
       RockHardAbs::Logger.log :summary, "Queries/sec = Queries per second at max concurrency"

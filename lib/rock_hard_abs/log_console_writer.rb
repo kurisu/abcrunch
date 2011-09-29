@@ -1,18 +1,20 @@
 require 'colorize'
 
 module RockHardAbs
-  class AbConsoleWriter
+  module AbConsoleWriter
     @@last_inline = false
 
     def self.color_for_type(type)
       {
         :info => :white,
         :success => :light_green,
+        :failure => :light_red,
         :result => :light_green,
         :progress => :green,
         :ab_result => :cyan,
         :task => :light_white,
         :strategy => :light_white,
+        :test => :light_white,
       }[type]
     end
 
@@ -20,11 +22,13 @@ module RockHardAbs
       {
         :info => '  ',
         :success => '  ',
+        :failure => '  ',
         :result => '  ',
         :progress => '  ',
         :ab_result => '    ',
         :task => "\n ",
-        :strategy => "\n\n",
+        :strategy => "\n",
+        :test => "\n\n-----",
       }[type]
     end
 

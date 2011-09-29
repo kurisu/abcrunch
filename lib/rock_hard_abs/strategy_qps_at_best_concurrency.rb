@@ -34,11 +34,17 @@ module RockHardAbs
       prev_result || base_result
     end
 
-    def self.run(url, max_con_options = DEFAULT_MAX_CON_OPTIONS, ab_options = DEFAULT_AB_OPTIONS)
-      RockHardAbs::Logger.log :strategy, "Strategy: find queries per second (QPS) at highest concurrency before latency degrades"
+    def self.run(url, max_con_options = {}, ab_options = {})
+      max_con_options = max_con_options || {}
+      max_con_options = DEFAULT_MAX_CON_OPTIONS.merge(max_con_options)
+      ab_options = ab_options || {}
+      ab_options = DEFAULT_AB_OPTIONS.merge(ab_options)
       ab_options.merge!({:url => url})
+
+      RockHardAbs::Logger.log :strategy, "Strategy: find queries per second (QPS) at highest concurrency before latency degrades"
       base_result = baseline_page(max_con_options[:num_baseline_runs], ab_options)
       best_result = find_max_concurrency(ab_options, base_result, max_con_options)
+
       RockHardAbs::Logger.log :progress, "Highest concurrency without degrading latency: #{best_result.ab_options[:concurrency]}"
       RockHardAbs::Logger.log :result, "Queries Per Second (QPS): #{best_result.queries_per_second}"
       best_result.log

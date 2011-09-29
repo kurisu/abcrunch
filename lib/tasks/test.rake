@@ -14,4 +14,15 @@ namespace :test do
     RockHardAbs::StrategyQpsAtBestConcurrency.run('http://www.truecar.com/')
   end
 
+  desc "Test page tester"
+  task 'page' do
+    page = {
+      :name => "TrueCar home page",
+      :url => "http://www.truecar.com/",
+      :min_queries_per_second => 20,
+      :max_avg_response_time => 200,
+    }
+    RockHardAbs::PageTester.test(page)
+  end
+
 end

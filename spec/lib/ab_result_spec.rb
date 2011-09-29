@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe "RockHardAbs::AbResult" do
-  def new_abr(raw_ab_output)
-    RockHardAbs::AbResult.new(raw_ab_output)
+  def new_abr(raw_ab_output, ab_options = {})
+    RockHardAbs::AbResult.new(raw_ab_output, ab_options)
   end
 
   describe "#initialize" do

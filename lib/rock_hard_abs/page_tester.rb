@@ -38,7 +38,7 @@ module RockHardAbs
         RockHardAbs::Logger.log :failure, "#{page[:name]} FAILED"
       end
 
-      [passed, qps_result]
+      [passed, qps_result, errors]
     end
   end
 end

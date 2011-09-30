@@ -4,12 +4,8 @@ describe "RockHardAbs::StrategyBestConcurrency" do
 
   describe "#run" do
     before :each do
-      @test_page = {
-        :url => 'some url'
-      }
-
-      @fake_result_text = FAKE_AB_RESULT
-      @fake_result = RockHardAbs::AbResult.new(@fake_result_text, @test_page)
+      @test_page = RockHardAbsSpec.new_page
+      @fake_result = RockHardAbsSpec.new_result
 
       stub(RockHardAbs::BestRun).of_avg_response_time { @fake_result }
       stub(RockHardAbs::StrategyBestConcurrency).find_best_concurrency { @fake_result }
@@ -55,12 +51,8 @@ describe "RockHardAbs::StrategyBestConcurrency" do
   
   describe "#find_best_concurrency" do
     before :each do
-      @test_page = {
-        :url => 'some url'
-      }
-
-      @fake_result_text = FAKE_AB_RESULT
-      @fake_result = RockHardAbs::AbResult.new(@fake_result_text, @test_page)
+      @test_page = RockHardAbsSpec.new_page
+      @fake_result = RockHardAbsSpec.new_result
 
       stub(RockHardAbs::Logger).log
     end
@@ -97,52 +89,5 @@ describe "RockHardAbs::StrategyBestConcurrency" do
       result.should == desired_result
     end
   end
-
-  FAKE_AB_RESULT = <<-ABRESULT
-This is ApacheBench, Version 2.3 <$Revision: 655654 $>
-Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-Licensed to The Apache Software Foundation, http://www.apache.org/
-
-Benchmarking www.google.com (be patient).....done
-
-
-Server Software:        gws
-Server Hostname:        www.google.com
-Server Port:            80
-
-Document Path:          /
-Document Length:        10372 bytes
-
-Concurrency Level:      1
-Time taken for tests:   0.880 seconds
-Complete requests:      10
-Failed requests:        8
-   (Connect: 0, Receive: 0, Length: 8, Exceptions: 0)
-Write errors:           0
-Total transferred:      109542 bytes
-HTML transferred:       103762 bytes
-Requests per second:    11.36 [#/sec] (mean)
-Time per request:       88.019 [ms] (mean)
-Time per request:       88.019 [ms] (mean, across all concurrent requests)
-Transfer rate:          121.54 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:       24   29   4.4     28      38
-Processing:    56   59   3.2     59      66
-Waiting:       52   55   3.4     55      64
-Total:         80   88   6.4     88     103
-
-Percentage of the requests served within a certain time (ms)
-  50%     88
-  66%     89
-  75%     89
-  80%     91
-  90%    103
-  95%    103
-  98%    103
-  99%    103
- 100%    103 (longest request)
-      ABRESULT
 
 end

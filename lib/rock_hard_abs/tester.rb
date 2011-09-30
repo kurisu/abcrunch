@@ -4,18 +4,20 @@ module RockHardAbs
       results = []
 
       pages.each do |page|
-        passed, qps_result = RockHardAbs::PageTester.test(page)
+        passed, qps_result, errors = RockHardAbs::PageTester.test(page)
         results << {
           :page => page,
           :passed => passed,
-          :qps_result => qps_result
+          :qps_result => qps_result,
+          :errors => errors
         }
       end
 
-      log_results results
+      log_result_summary results
+      results
     end
 
-    def self.log_results(results)
+    def self.log_result_summary(results)
       RockHardAbs::Logger.log :summary_title, "Summary"
       RockHardAbs::Logger.log :summary, "#{"Page".ljust(30, ' ')}#{"Response time".rjust(10, ' ')}  #{"Concurrency".rjust(16, ' ')}  #{"Queries/sec".rjust(12, ' ')}"
       results.each do |result|

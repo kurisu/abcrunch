@@ -18,6 +18,7 @@ module RockHardAbs
     end
 
     def self.log_result_summary(results)
+      #  TODO: Fix summary: legend no longer matches columns
       RockHardAbs::Logger.log :summary_title, "Summary"
       RockHardAbs::Logger.log :summary, "#{"Page".ljust(30, ' ')}#{"Response time".rjust(10, ' ')}  #{"Concurrency".rjust(16, ' ')}  #{"Queries/sec".rjust(12, ' ')}"
       results.each do |result|

@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe "AbRunner" do
+  describe "#validate_options" do
+    it "should throw an error when no url is provided" do
+      lambda {
+        RockHardAbs::AbRunner.validate_options({})
+      }.should raise_error "AB Options missing :url"
+    end
+
+    it "should return the options merged into the global configuration's ab_options'" do
+      result = RockHardAbs::AbRunner.validate_options({:url => 'some url'})
+      result.should == RockHardAbs::Config.ab_options.merge({:url => 'some url'})
+    end
+  end
+
   describe "#ab_command" do
     it "should return the ab command line based on given options" do
       options = {

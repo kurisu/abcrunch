@@ -4,12 +4,10 @@ module RockHardAbs
       RockHardAbs::Logger.log :test, "Testing #{page[:name]}"
       RockHardAbs::Logger.log :info, "#{page[:url]}"
 
-      max_con_options = RockHardAbs::Config.max_con_options
-
       if page[:max_avg_response_time]
-        max_con_options.merge!({:max_latency => page[:max_avg_response_time]})
+        page.merge!({:max_latency => page[:max_avg_response_time]})
       end
-      qps_result = RockHardAbs::StrategyQpsAtBestConcurrency.run(page[:url], max_con_options, RockHardAbs::Config.ab_options)
+      qps_result = RockHardAbs::StrategyBestConcurrency.run(page)
 
       passed = true
       errors = []

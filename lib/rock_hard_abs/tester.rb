@@ -18,7 +18,6 @@ module RockHardAbs
     end
 
     def self.log_result_summary(results)
-      #  TODO: Fix summary: legend no longer matches columns
       RockHardAbs::Logger.log :summary_title, "Summary"
       RockHardAbs::Logger.log :summary, "#{"Page".ljust(30, ' ')}#{"Response time".rjust(10, ' ')}  #{"Concurrency".rjust(16, ' ')}  #{"Queries/sec".rjust(12, ' ')}"
       results.each do |result|
@@ -33,9 +32,9 @@ module RockHardAbs
         end
       end
       RockHardAbs::Logger.log :summary_title, "Legend"
-      RockHardAbs::Logger.log :summary, "Baseline = Best average response time (ms) over multiple runs with no concurrency"
-      RockHardAbs::Logger.log :summary, "Max Concurrency = Most concurrent requests where best average response time doesn't bust our performance threshold"
-      RockHardAbs::Logger.log :summary, "Queries/sec = Queries per second at max concurrency"
+      RockHardAbs::Logger.log :summary, "Response Time = Best average response time (ms) at max concurrency"
+      RockHardAbs::Logger.log :summary, "Concurrency = Best concurrency where response time doesn't bust our performance threshold"
+      RockHardAbs::Logger.log :summary, "Queries/sec = Queries per second at best concurrency"
 
       results
     end

@@ -1,7 +1,7 @@
 module RockHardAbs
   module Config
     class << self
-      attr_accessor :best_concurrency_options, :ab_options
+      attr_accessor :pages, :best_concurrency_options, :ab_options
     end
 
     @best_concurrency_options = {
@@ -15,5 +15,7 @@ module RockHardAbs
       :concurrency => 1,
       :num_requests => 10
     }
+
+    @pages = {}
   end
 end

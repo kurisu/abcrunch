@@ -5,4 +5,8 @@ describe "RockHardAbs::Config" do
     RockHardAbs::Config.best_concurrency_options.class.to_s.should == 'Hash'
     RockHardAbs::Config.ab_options.class.to_s.should == 'Hash'
   end
+
+  it "should have a hash for the pages to be tested" do
+    RockHardAbs::Config.pages.class.to_s.should == 'Hash'
+  end
 end

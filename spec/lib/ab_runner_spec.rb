@@ -27,9 +27,15 @@ describe "AbRunner" do
 
   describe "#ab" do
     it "should run ab and wrap the results in an ab result" do
-      stub(RockHardAbs::AbRunner).__double_definition_create__.call(:`) do |cmd|
-        cmd == 'foo' ? "some fake output" : "wrong!"
+      def Open3.block=(block) ; @block = block ; end
+      def Open3.block(cmd, &block)
+        self.block = block if block_given?
+        block.call(StringIO.new(''), StringIO.new('some fake output'), StringIO.new(''))
+        return(@block)
       end
+      Open3.block = nil
+      stub(Open3).popen3.implemented_by(Open3.method(:block))
+
       stub(RockHardAbs::AbRunner).ab_command('bar') { 'foo' }
       mock(RockHardAbs::AbResult).new('some fake output', 'bar') { 'six pack' }
       

@@ -7,6 +7,6 @@ describe "RockHardAbs::Config" do
   end
 
   it "should have a hash for the pages to be tested" do
-    RockHardAbs::Config.pages.class.to_s.should == 'Hash'
+    RockHardAbs::Config.page_sets.class.to_s.should == 'Hash'
   end
 end

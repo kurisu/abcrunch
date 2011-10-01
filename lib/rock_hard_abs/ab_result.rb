@@ -1,7 +1,6 @@
 module RockHardAbs
   class AbResult
-    attr_accessor :raw
-    attr_accessor :ab_options
+    attr_accessor :raw, :ab_options
 
     def initialize(raw_ab_output, ab_options)
       @raw = raw_ab_output

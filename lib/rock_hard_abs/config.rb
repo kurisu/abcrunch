@@ -1,7 +1,7 @@
 module RockHardAbs
   module Config
     class << self
-      attr_accessor :pages, :best_concurrency_options, :ab_options
+      attr_accessor :page_sets, :best_concurrency_options, :ab_options
     end
 
     @best_concurrency_options = {
@@ -16,6 +16,14 @@ module RockHardAbs
       :num_requests => 10
     }
 
-    @pages = {}
+    @page_sets = {
+      :default => [
+        {
+          :name => 'localhost',
+          :url => 'http://localhost:3000/',
+          :max_avg_response_time => 500
+        }
+      ]
+    }
   end
 end

@@ -50,7 +50,7 @@ describe "RockHardAbs::PageTester" do
 
       passed.should == false
       errors.should == [
-        "Avg response time of 200 must be <= 117"
+        "some page: Avg response time of 200 must be <= 117"
       ]
     end
 
@@ -69,7 +69,7 @@ describe "RockHardAbs::PageTester" do
 
       passed.should == false
       errors.should == [
-        "QPS of 5 must be >= 117"
+        "some page: QPS of 5 must be >= 117"
       ]
     end
   end

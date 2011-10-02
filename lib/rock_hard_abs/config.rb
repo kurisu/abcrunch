@@ -13,7 +13,7 @@ module RockHardAbs
 
     @ab_options = {
       :concurrency => 1,
-      :num_requests => 10
+      :num_requests => 50
     }
 
     @page_sets = {

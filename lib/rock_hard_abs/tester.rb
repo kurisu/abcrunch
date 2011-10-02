@@ -14,6 +14,20 @@ module RockHardAbs
       end
 
       log_result_summary results
+
+      passed = results.reduce(true) { |value, result| value && result[:passed] }
+
+      if not passed
+        errors = results.reduce('') do |value, result|
+          page_set_errors = result[:errors].reduce('') do |val, error|
+            "#{val}#{val.length > 0 ? "\n" : ''}#{error}"
+          end
+          "#{value}#{value.length > 0 ? "\n" : ''}#{page_set_errors}"
+        end
+
+        raise "Load tests FAILED\n#{errors}"
+      end
+
       results
     end
 

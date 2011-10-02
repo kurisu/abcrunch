@@ -15,20 +15,20 @@ module RockHardAbs
       if page[:max_avg_response_time]
         if qps_result.avg_response_time > page[:max_avg_response_time]
           passed = false
-          errors << "Avg response time of #{qps_result.avg_response_time} must be <= #{page[:max_avg_response_time]}"
+          errors << "#{page[:name]}: Avg response time of #{qps_result.avg_response_time} must be <= #{page[:max_avg_response_time]}"
         end
       end
 
       if page[:min_queries_per_second]
         if qps_result.queries_per_second < page[:min_queries_per_second]
           passed = false
-          errors << "QPS of #{qps_result.queries_per_second} must be >= #{page[:min_queries_per_second]}"
+          errors << "#{page[:name]}: QPS of #{qps_result.queries_per_second} must be >= #{page[:min_queries_per_second]}"
         end
       end
 
       if qps_result.failed_requests > 0
         passed = false
-        errors << "Load test invalidated: #{qps_result.failed_requests} requests failed"
+        errors << "#{page[:name]}: Load test invalidated: #{qps_result.failed_requests} requests failed"
       end
 
       if passed

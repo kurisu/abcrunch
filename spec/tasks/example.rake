@@ -11,7 +11,7 @@ namespace :ac do
       {
         :name => "Google home page",
         :url => "http://www.google.com/",
-        :min_queries_per_second => 20,
+        :min_queries_per_second => 10,
         :max_avg_response_time => 1000,
       },
       {
@@ -21,7 +21,7 @@ namespace :ac do
       },
       {
         :name => "Bing Homepage",
-        :url => "http://www.bing.com",
+        :url => "http://www.bing.com/",
         :min_queries_per_second => 50,
         :max_avg_response_time => 200
       }

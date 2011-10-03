@@ -1,0 +1,69 @@
+Ab Crunch uses Apache Bench to run various strategies for load testing web projects,
+and provides rake tasks for analyzing performance and enforcing performance
+standards on CI.
+
+Quick Start Guide
+
+  To see some immediate action, require the gem, and run 'rake ac:example'
+
+  Now to use it on your own pages:
+
+  First, define the pages you want to test, and (optionally), the performance
+  requirements you want them to meet.  If you exclude any requirements, your
+  load test will be informational only, and won't log or raise any errors
+  based on performance standards.
+
+  For Example:
+
+    @load_test_page_sets = {
+      :production => [
+        {
+          :name => "Google home page",
+          :url => "http://www.google.com/",
+          :min_queries_per_second => 20,
+          :max_avg_response_time => 1000,
+        },
+        {
+          :name => "Facebook home page",
+          :url => "http://www.facebook.com/",
+        }
+      ],
+      :staging => [
+        {
+          :name => "Github home page",
+          :url => "http://www.github.com/",
+          :max_avg_response_time => 1000,
+        }
+      ]
+    }
+
+    require 'abcrunch'
+    AbCrunch::Config.page_sets = @load_test_page_sets
+
+  In Rails, you can do this in your development and test environments.
+
+  Once you've configured Ab Crunch, you can run rake tasks to load test your pages, like this:
+
+    rake ac:load_test:staging
+     - or -
+    rake ac:load_test:all
+
+Configuring Pages
+
+  :name  - (required) User-friendly name for the page.
+  :url  - (required) Url to test.
+
+  Performance requirements (will raise so CI builds break when requirements fail)
+  :min_queries_per_second  - page must support at least this many QPS
+  :max_avg_response_time  - latency for the page cannot go higher than this
+
+  Other Options
+  :num_requests  - how many requests to make during each (of many) runs [Default: 50]
+  :max_latency  - global maximum latency (in ms) considered to be acceptable [Default: 1000]
+  :max_degradation_percent  - global max percent latency can degrade before being considered unacceptable [Default: 0.5 (iow 50%)]
+
+
+KNOWN GOTCHA: Apache Bench does not like urls that just end with the domain.  For example:
+  http://www.google.com    is BAD, but
+  http://www.google.com/   is fine, for reasons surpassing understanding.
+...so for root level urls, be sure to add a trailing slash.

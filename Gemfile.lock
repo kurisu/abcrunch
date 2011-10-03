@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rock_hard_abs (0.0.1)
+    abcrunch (0.0.1)
       colorize
       rr
       rspec
@@ -25,4 +25,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rock_hard_abs!
+  abcrunch!

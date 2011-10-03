@@ -1,13 +1,13 @@
-module RockHardAbs
+module AbCrunch
   module PageTester
     def self.test(page)
-      RockHardAbs::Logger.log :test, "Testing #{page[:name]}"
-      RockHardAbs::Logger.log :info, "#{page[:url]}"
+      AbCrunch::Logger.log :test, "Testing #{page[:name]}"
+      AbCrunch::Logger.log :info, "#{page[:url]}"
 
       if page[:max_avg_response_time]
         page.merge!({:max_latency => page[:max_avg_response_time]})
       end
-      qps_result = RockHardAbs::StrategyBestConcurrency.run(page)
+      qps_result = AbCrunch::StrategyBestConcurrency.run(page)
 
       passed = true
       errors = []
@@ -32,10 +32,10 @@ module RockHardAbs
       end
 
       if passed
-        RockHardAbs::Logger.log :success, "PASSED"
+        AbCrunch::Logger.log :success, "PASSED"
       else
-        errors.each { |error| RockHardAbs::Logger.log :failure, error }
-        RockHardAbs::Logger.log :failure, "#{page[:name]} FAILED"
+        errors.each { |error| AbCrunch::Logger.log :failure, error }
+        AbCrunch::Logger.log :failure, "#{page[:name]} FAILED"
       end
 
       [passed, qps_result, errors]

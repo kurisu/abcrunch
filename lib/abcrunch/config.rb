@@ -1,4 +1,4 @@
-module RockHardAbs
+module AbCrunch
   module Config
     class << self
       attr_accessor :page_sets, :best_concurrency_options, :ab_options

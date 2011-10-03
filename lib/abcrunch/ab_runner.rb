@@ -2,11 +2,11 @@ require 'open3'
 require 'pp'
 require 'colorize'
 
-module RockHardAbs
+module AbCrunch
   class AbRunner
     def self.validate_options(options)
       raise "AB Options missing :url" unless options.has_key? :url
-      RockHardAbs::Config.ab_options.merge(options)
+      AbCrunch::Config.ab_options.merge(options)
     end
 
     def self.ab_command(options)
@@ -26,7 +26,7 @@ module RockHardAbs
           err_s = err_lines.reduce {|line, memo| memo += line}.red
           raise "#{err}\nCommand: #{cmd}\n#{err_s}"
         end
-        result = RockHardAbs::AbResult.new stdout.readlines.reduce {|line, memo| memo += line}, options
+        result = AbCrunch::AbResult.new stdout.readlines.reduce {|line, memo| memo += line}, options
       end
 
       result

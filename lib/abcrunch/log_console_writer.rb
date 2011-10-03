@@ -1,6 +1,6 @@
 require 'colorize'
 
-module RockHardAbs
+module AbCrunch
   class LogConsoleWriter
     @@last_inline = false
 

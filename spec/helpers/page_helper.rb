@@ -1,4 +1,4 @@
-module RockHardAbsSpec
+module AbCrunchSpec
 
   FULL_TEST_PAGE = {
       :name => "some page",
@@ -10,7 +10,7 @@ module RockHardAbsSpec
   end
 
   def self.new_result(page = FULL_TEST_PAGE)
-    RockHardAbs::AbResult.new(FAKE_AB_RESULT_TEXT, page)
+    AbCrunch::AbResult.new(FAKE_AB_RESULT_TEXT, page)
   end
 
   FAKE_AB_RESULT_TEXT = <<-ABRESULT

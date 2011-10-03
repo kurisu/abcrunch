@@ -11,9 +11,9 @@ describe "BestRun" do
 
   describe "#of_avg_response_time" do
     it "should run ab on the ab options N times" do
-      stub(RockHardAbs::Logger).log
+      stub(AbCrunch::Logger).log
       num_runs = 0
-      stub(RockHardAbs::AbRunner).ab(@ab_options) do
+      stub(AbCrunch::AbRunner).ab(@ab_options) do
         num_runs += 1
         obj = "foo"
 
@@ -25,17 +25,17 @@ describe "BestRun" do
         obj
       end
 
-      RockHardAbs::BestRun.of_avg_response_time(7, @ab_options)
+      AbCrunch::BestRun.of_avg_response_time(7, @ab_options)
 
       num_runs.should == 7
     end
 
     it "should return the ab result for the run with the lowest avg response time" do
-      stub(RockHardAbs::Logger).log
+      stub(AbCrunch::Logger).log
       response_times = [3, 87, 1, 590]
 
       run_idx = 0
-      stub(RockHardAbs::AbRunner).ab(@ab_options) do
+      stub(AbCrunch::AbRunner).ab(@ab_options) do
         obj = Object.new
         response_time = response_times[run_idx]
         obj.singleton_class.class_eval do
@@ -48,7 +48,7 @@ describe "BestRun" do
         obj
       end
 
-      result = RockHardAbs::BestRun.of_avg_response_time(4, @ab_options)
+      result = AbCrunch::BestRun.of_avg_response_time(4, @ab_options)
 
       result.avg_response_time.should == 1
     end
@@ -56,11 +56,11 @@ describe "BestRun" do
     it "should log" do
       types = []
       lines = []
-      stub(RockHardAbs::Logger).log { |*args|
+      stub(AbCrunch::Logger).log { |*args|
         types << args[0]
         lines << args[1]
       }
-      stub(RockHardAbs::AbRunner).ab(@ab_options) do
+      stub(AbCrunch::AbRunner).ab(@ab_options) do
         obj = "foo"
 
         class << obj
@@ -71,7 +71,7 @@ describe "BestRun" do
         obj
       end
 
-      RockHardAbs::BestRun.of_avg_response_time(4, @ab_options)
+      AbCrunch::BestRun.of_avg_response_time(4, @ab_options)
 
       types.should == [:task, :info, :info, :info, :info, :info, :info, :progress]
       lines.should == [

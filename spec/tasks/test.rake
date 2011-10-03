@@ -6,12 +6,12 @@ namespace :test do
       :concurrency => 1,
       :num_requests => 10
     }
-    RockHardAbs::BestRun.of_avg_response_time 5, ab_options
+    AbCrunch::BestRun.of_avg_response_time 5, ab_options
   end
 
   desc "Test strategy: QPS at best concurrency"
   task 'qps_concurrency' do
-    RockHardAbs::StrategyQpsAtBestConcurrency.run('http://www.truecar.com/')
+    AbCrunch::StrategyQpsAtBestConcurrency.run('http://www.truecar.com/')
   end
 
   desc "Test page tester"
@@ -22,7 +22,7 @@ namespace :test do
       :min_queries_per_second => 20,
       :max_avg_response_time => 200,
     }
-    RockHardAbs::PageTester.test(page)
+    AbCrunch::PageTester.test(page)
   end
 
   desc "Test multiple pages"
@@ -47,7 +47,7 @@ namespace :test do
     }
     ]
 
-    RockHardAbs::Tester.test(pages)
+    AbCrunch::Tester.test(pages)
   end
 
 end

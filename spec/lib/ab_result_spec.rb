@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "RockHardAbs::AbResult" do
+describe "AbCrunch::AbResult" do
   def new_abr(raw_ab_output, ab_options = {})
-    RockHardAbs::AbResult.new(raw_ab_output, ab_options)
+    AbCrunch::AbResult.new(raw_ab_output, ab_options)
   end
 
   describe "#initialize" do
@@ -16,7 +16,7 @@ describe "RockHardAbs::AbResult" do
   describe "#command" do
     it "should return the ab command used to produce the result" do
       ab_options = {:crunch => 'now'}
-      mock(RockHardAbs::AbRunner).ab_command(ab_options) { 'tight!' }
+      mock(AbCrunch::AbRunner).ab_command(ab_options) { 'tight!' }
       abr = new_abr('blah', ab_options)
       abr.command.should == 'tight!'
     end
@@ -70,7 +70,7 @@ describe "RockHardAbs::AbResult" do
       mock(abr).failed_requests { '10' }
       #  ...
       lines = []
-      stub(RockHardAbs::Logger).log { |*args|
+      stub(AbCrunch::Logger).log { |*args|
         args[0].should == :ab_result
         lines << args[1]
       }

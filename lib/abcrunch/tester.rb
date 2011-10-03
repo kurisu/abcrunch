@@ -1,10 +1,10 @@
-module RockHardAbs
+module AbCrunch
   module Tester
     def self.test(pages)
       results = []
 
       pages.each do |page|
-        passed, qps_result, errors = RockHardAbs::PageTester.test(page)
+        passed, qps_result, errors = AbCrunch::PageTester.test(page)
         results << {
           :page => page,
           :passed => passed,
@@ -32,23 +32,23 @@ module RockHardAbs
     end
 
     def self.log_result_summary(results)
-      RockHardAbs::Logger.log :summary_title, "Summary"
-      RockHardAbs::Logger.log :summary, "#{"Page".ljust(30, ' ')}#{"Response time".rjust(10, ' ')}  #{"Concurrency".rjust(16, ' ')}  #{"Queries/sec".rjust(12, ' ')}"
+      AbCrunch::Logger.log :summary_title, "Summary"
+      AbCrunch::Logger.log :summary, "#{"Page".ljust(30, ' ')}#{"Response time".rjust(10, ' ')}  #{"Concurrency".rjust(16, ' ')}  #{"Queries/sec".rjust(12, ' ')}"
       results.each do |result|
         page_name = result[:page][:name].ljust(30, ' ')
         base_response_time = sprintf("%.2f", result[:qps_result].avg_response_time).rjust(10, ' ')
         max_concurrency = result[:qps_result].ab_options[:concurrency].to_s.rjust(16, ' ')
         queries_per_second = sprintf("%.2f", result[:qps_result].queries_per_second).rjust(12, ' ')
         if result[:passed]
-          RockHardAbs::Logger.log :summary_passed, "#{page_name}#{base_response_time}  #{max_concurrency}  #{queries_per_second}"
+          AbCrunch::Logger.log :summary_passed, "#{page_name}#{base_response_time}  #{max_concurrency}  #{queries_per_second}"
         else
-          RockHardAbs::Logger.log :summary_failed, "#{page_name}#{base_response_time}  #{max_concurrency}  #{queries_per_second}"
+          AbCrunch::Logger.log :summary_failed, "#{page_name}#{base_response_time}  #{max_concurrency}  #{queries_per_second}"
         end
       end
-      RockHardAbs::Logger.log :summary_title, "Legend"
-      RockHardAbs::Logger.log :summary, "Response Time = Best average response time (ms) at max concurrency"
-      RockHardAbs::Logger.log :summary, "Concurrency = Best concurrency where response time doesn't bust our performance threshold"
-      RockHardAbs::Logger.log :summary, "Queries/sec = Queries per second at best concurrency"
+      AbCrunch::Logger.log :summary_title, "Legend"
+      AbCrunch::Logger.log :summary, "Response Time = Best average response time (ms) at max concurrency"
+      AbCrunch::Logger.log :summary, "Concurrency = Best concurrency where response time doesn't bust our performance threshold"
+      AbCrunch::Logger.log :summary, "Queries/sec = Queries per second at best concurrency"
 
       results
     end

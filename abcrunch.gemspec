@@ -8,8 +8,12 @@ Gem::Specification.new do |s|
   s.authors     = ["Chris Lichti"]
   s.email       = ["kai@truecar.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = "Automated load testing in ruby"
+  s.description = <<-DESC
+Ab Crunch uses Apache Bench to run various strategies for load testing web projects,
+and provides rake tasks for analyzing performance and enforcing performance
+standards on CI.
+DESC
 
   s.rubyforge_project = "abcrunch"
 

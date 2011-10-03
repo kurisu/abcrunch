@@ -2,6 +2,10 @@ Ab Crunch uses Apache Bench to run various strategies for load testing web proje
 and provides rake tasks for analyzing performance and enforcing performance
 standards on CI.
 
+Prerequisites
+
+  Must have Apache Bench installed and 'ab' on your path
+
 Quick Start Guide
 
   To see some immediate action, require the gem, and run 'rake ac:example'

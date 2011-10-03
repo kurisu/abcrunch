@@ -2,7 +2,8 @@ module AbCrunch
   module PageTester
     def self.test(page)
       AbCrunch::Logger.log :test, "Testing #{page[:name]}"
-      AbCrunch::Logger.log :info, "#{page[:url]}"
+      url = AbCrunch::Page.get_url(page, true)
+      AbCrunch::Logger.log :info, "#{url}"
 
       if page[:max_avg_response_time]
         page.merge!({:max_latency => page[:max_avg_response_time]})

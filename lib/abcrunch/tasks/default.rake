@@ -1,4 +1,4 @@
-namespace :ac do
+namespace :abcrunch do
   desc "Run default load tests"
   task :load_test do
     if AbCrunch::Config.page_sets[:default]

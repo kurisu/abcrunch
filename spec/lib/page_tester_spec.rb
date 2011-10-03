@@ -2,6 +2,15 @@ require 'spec_helper'
 
 describe "AbCrunch::PageTester" do
   describe "#test" do
+
+    def stub_strategies(result = nil)
+      strategy_result = result ? result : AbCrunchSpec.new_result
+
+      @strategies.each do |strategy|
+        stub(strategy).run { strategy_result }
+      end
+    end
+
     before :each do
       @test_page = AbCrunchSpec.new_page
       @test_result = AbCrunchSpec.new_result
@@ -10,20 +19,27 @@ describe "AbCrunch::PageTester" do
       stub(AbCrunch::Logger).log
     end
 
+    it "should force the page url to be reset, in case the page is tested more than once" do
+      stub_strategies
+
+      called_with_expected_params = 0
+      stub(AbCrunch::Page).get_url do |*args|
+        if args == [@test_page, true]
+          called_with_expected_params += 1
+        end
+      end
+
+      AbCrunch::PageTester.test(@test_page)
+
+      called_with_expected_params.should == 1
+    end
+
     it "should run every load testing strategy on the given page" do
       @strategies.each do |strategy|
         mock(strategy).run(@test_page) { @test_result }
       end
 
       AbCrunch::PageTester.test(@test_page)
-    end
-
-    def stub_strategies(result = nil)
-      strategy_result = result ? result : AbCrunchSpec.new_result
-
-      @strategies.each do |strategy|
-        stub(strategy).run { strategy_result }
-      end
     end
 
     it "should use any user provided max avg response time as the max latency for all strategies" do

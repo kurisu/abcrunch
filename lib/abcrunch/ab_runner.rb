@@ -1,6 +1,5 @@
 require 'open3'
 require 'pp'
-require 'colorize'
 
 module AbCrunch
   class AbRunner
@@ -11,7 +10,7 @@ module AbCrunch
 
     def self.ab_command(options)
       options = validate_options(options)
-      "ab -c #{options[:concurrency]} -n #{options[:num_requests]} #{options[:url]}"
+      "ab -c #{options[:concurrency]} -n #{options[:num_requests]} #{AbCrunch::Page.get_url(options)}"
     end
 
     def self.ab(options)

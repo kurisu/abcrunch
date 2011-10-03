@@ -21,6 +21,8 @@ describe "AbRunner" do
         :num_requests => 'i can only do 5 today',
         :url => '5 minute abs'
       }
+      mock.proxy(AbCrunch::Page).get_url(options)
+
       AbCrunch::AbRunner.ab_command(options).should == 'ab -c thigh master -n i can only do 5 today 5 minute abs'
     end
   end

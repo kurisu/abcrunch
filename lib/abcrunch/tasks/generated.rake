@@ -1,4 +1,4 @@
-namespace :ac do
+namespace :abcrunch do
   namespace :load_test do
 
     AbCrunch::Config.page_sets.keys.each do |page_set_key|

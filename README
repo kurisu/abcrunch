@@ -8,7 +8,7 @@ Prerequisites
 
 Quick Start Guide
 
-  To see some immediate action, require the gem, and run 'rake ac:example'
+  To see some immediate action, require the gem, and run 'rake abcrunch:example'
 
   Now to use it on your own pages:
 
@@ -48,14 +48,17 @@ Quick Start Guide
 
   Once you've configured Ab Crunch, you can run rake tasks to load test your pages, like this:
 
-    rake ac:load_test:staging
+    rake abcrunch:load_test:staging
      - or -
-    rake ac:load_test:all
+    rake abcrunch:load_test:all
 
 Configuring Pages
 
   :name  - (required) User-friendly name for the page.
-  :url  - (required) Url to test.
+  :url  - (required) Url to test. Can be a string or a Proc.  Proc example:
+        :url => proc do
+          "http://www.google.com/?q=#{['food','coma','weirds','code'][rand(4)]}"
+        end,
 
   Performance requirements (will raise so CI builds break when requirements fail)
   :min_queries_per_second  - page must support at least this many QPS

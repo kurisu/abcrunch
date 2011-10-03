@@ -13,10 +13,12 @@ namespace :ac do
     end
   end
 
-  desc "Run load tests against ALL page sets"
-  task :all do
-    AbCrunch::Config.page_sets.keys.each do |page_set_key|
-      AbCrunch::Tester.test(AbCrunch::Config.page_sets[page_set_key])
+  namespace :load_test do
+    desc "Run load tests against ALL page sets"
+    task :all do
+      AbCrunch::Config.page_sets.keys.each do |page_set_key|
+        AbCrunch::Tester.test(AbCrunch::Config.page_sets[page_set_key])
+      end
     end
   end
 

@@ -25,5 +25,11 @@ module AbCrunch
         }
       ]
     }
+
+    def self.page_sets=(new_page_sets)
+      @page_sets = new_page_sets
+      require 'rake'
+      load File.join(AbCrunch.root, "lib/abcrunch/tasks/generated.rake")
+    end
   end
 end

@@ -1,53 +1,31 @@
-namespace :test do
-  desc "Test getting a best run"
-  task 'best_run' do
-    ab_options = {
-      :url => 'http://clearbook.truecar.com/',
-      :concurrency => 1,
-      :num_requests => 10
-    }
-    AbCrunch::BestRun.of_avg_response_time 5, ab_options
+namespace :ac do
+
+  desc "Test example pages"
+  task :example do
+    AbCrunch::Config.page_sets = @sample_page_sets
+    Rake::Task['ac:load_test:sample_1'].invoke
   end
 
-  desc "Test strategy: QPS at best concurrency"
-  task 'qps_concurrency' do
-    AbCrunch::StrategyQpsAtBestConcurrency.run('http://www.truecar.com/')
-  end
-
-  desc "Test page tester"
-  task 'page' do
-    page = {
-      :name => "TrueCar home page",
-      :url => "http://www.truecar.com/",
-      :min_queries_per_second => 20,
-      :max_avg_response_time => 200,
-    }
-    AbCrunch::PageTester.test(page)
-  end
-
-  desc "Test multiple pages"
-  task 'pages' do
-    pages = [
-    {
-      :name => "TrueCar home page",
-      :url => "http://www.truecar.com/",
-      :min_queries_per_second => 20,
-      :max_avg_response_time => 1000,
-    },
-    {
-      :name => "ClearBook home page",
-      :url => "http://clearbook.truecar.com/",
-      :max_avg_response_time => 1000,
-    },
-    {
-      :name => "Histogram Widget",
-      :url => "https://widgets.qa.honk.com/wsj/histogram?pag_id=179&make=toyota&model=corolla&year=2010&body_type=sedan&zip=95101",
-      :min_queries_per_second => 50,
-      :max_avg_response_time => 200
-    }
+  @sample_page_sets = {
+    :sample_1 => [
+      {
+        :name => "Google home page",
+        :url => "http://www.google.com/",
+        :min_queries_per_second => 20,
+        :max_avg_response_time => 1000,
+      },
+      {
+        :name => "Facebook home page",
+        :url => "http://www.facebook.com/",
+        :max_avg_response_time => 1000,
+      },
+      {
+        :name => "Bing Homepage",
+        :url => "http://www.bing.com",
+        :min_queries_per_second => 50,
+        :max_avg_response_time => 200
+      }
     ]
-
-    AbCrunch::Tester.test(pages)
-  end
+  }
 
 end

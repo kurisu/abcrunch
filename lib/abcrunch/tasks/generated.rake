@@ -10,7 +10,7 @@ namespace :abcrunch do
       namespace page_set_key do
         desc "Run a focused page load test in #{page_set_key}. Example rake abcrunch:#{page_set_key}:focus[0] runs the first page"
         task :focus, [:page_index] do |t, args|
-          unless verify_args(args, page_set_key)
+          unless verify_abcrunch_args(args, page_set_key)
             raise "usage: rake abcrunch:#{page_set_key}:focus[<page_index>]"
           end
 
@@ -18,7 +18,7 @@ namespace :abcrunch do
           AbCrunch::PageTester.test(orig_page)
         end
 
-        def verify_args(args, page_set_key)
+        def verify_abcrunch_args(args, page_set_key)
           max_idx = AbCrunch::Config.page_sets[page_set_key].length-1
           if !args[:page_index]
             puts "Focusing on... NOTHING!  (dork)"

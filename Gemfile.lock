@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    abcrunch (0.0.3)
+    abcrunch (0.0.4)
       colorize
       rr
       rspec

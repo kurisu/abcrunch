@@ -115,12 +115,20 @@ Example: Configuring the same URLS in multiple environments (dev, qa, staging, p
     end
 
     def ab_crunch_page_sets
-      {
-        :dev => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://localhost:3000' ; page },
-        :qa => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://qa.myapp.com' ; page },
-        :staging => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://staging.myapp.com' ; page },
-        :prod => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://www.myapp.com' ; page },
+      def page_with_domain(page, domain)
+        new = page.clone
+        new[:url] = page[:url].gsub '<domain>', domain
+        new
+      end
+
+      result = {
+        :dev => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page_with_domain(page, 'http://localhost:3000') },
+        :qa => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page_with_domain(page, 'http://qa.myapp.com') },
+        :staging => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page_with_domain(page, 'http://staging.myapp.com') },
+        :prod => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page_with_domain(page, 'http://www.myapp.com') },
       }
+
+      result
     end
 
     AB_CRUNCH_PAGE_SET_TEMPLATE = [

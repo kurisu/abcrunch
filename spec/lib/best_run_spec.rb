@@ -52,35 +52,5 @@ describe "BestRun" do
 
       result.avg_response_time.should == 1
     end
-
-    it "should log" do
-      types = []
-      lines = []
-      stub(AbCrunch::Logger).log { |*args|
-        types << args[0]
-        lines << args[1]
-      }
-      stub(AbCrunch::AbRunner).ab(@ab_options) do
-        obj = "foo"
-
-        class << obj
-          def avg_response_time
-            4
-          end
-        end
-        obj
-      end
-
-      AbCrunch::BestRun.of_avg_response_time(4, @ab_options)
-
-      types.should == [:task, :info, :info, :info, :info, :info, :info, :progress]
-      lines.should == [
-        "Best of 4 runs at concurrency: 1 and num_requests: 10",
-        "for foo",
-        "Collecting average response times for each run:",
-        "4 ... ", "4 ... ", "4 ... ", "4 ... ",
-        "Best response time was 4"
-      ]
-    end
   end
 end

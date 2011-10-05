@@ -19,19 +19,12 @@ describe "AbCrunch::PageTester" do
       stub(AbCrunch::Logger).log
     end
 
-    it "should force the page url to be reset, in case the page is tested more than once" do
+    it "should show the display url" do
       stub_strategies
 
-      called_with_expected_params = 0
-      stub(AbCrunch::Page).get_url do |*args|
-        if args == [@test_page, true]
-          called_with_expected_params += 1
-        end
-      end
+      mock(AbCrunch::Page).get_display_url(@test_page)
 
       AbCrunch::PageTester.test(@test_page)
-
-      called_with_expected_params.should == 1
     end
 
     it "should run every load testing strategy on the given page" do

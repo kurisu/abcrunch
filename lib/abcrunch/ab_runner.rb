@@ -10,7 +10,9 @@ module AbCrunch
 
     def self.ab_command(options)
       options = validate_options(options)
-      "ab -c #{options[:concurrency]} -n #{options[:num_requests]} #{AbCrunch::Page.get_url(options)}"
+      url = AbCrunch::Page.get_url(options, true)
+      AbCrunch::Logger.log(:info, "Calling ab on:  #{url}")
+      "ab -c #{options[:concurrency]} -n #{options[:num_requests]} #{url}"
     end
 
     def self.ab(options)

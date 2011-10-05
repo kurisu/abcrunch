@@ -15,13 +15,13 @@ describe "AbRunner" do
   end
 
   describe "#ab_command" do
-    it "should return the ab command line based on given options" do
+    it "should return the ab command line based on given options, forcing the page url to reset" do
       options = {
         :concurrency => 'thigh master',
         :num_requests => 'i can only do 5 today',
         :url => '5 minute abs'
       }
-      mock.proxy(AbCrunch::Page).get_url(options)
+      mock.proxy(AbCrunch::Page).get_url(options, true)
 
       AbCrunch::AbRunner.ab_command(options).should == 'ab -c thigh master -n i can only do 5 today 5 minute abs'
     end

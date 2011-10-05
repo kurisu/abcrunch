@@ -43,4 +43,22 @@ describe "AbCrunch::Page" do
     end
 
   end
+
+  describe "#get_display_url" do
+    describe "when the url is a string" do
+      it "should return the string" do
+        page = { :url => 'a text url' }
+
+        AbCrunch::Page.get_display_url(page).should == 'a text url'
+      end
+    end
+
+    describe "when the url is a proc" do
+      it "should return an example, noting that it's dynamic'" do
+        page = { :url => Proc.new { 'a proc url' } }
+
+        AbCrunch::Page.get_display_url(page).should == 'Dynamic url example: a proc url'
+      end
+    end
+  end
 end

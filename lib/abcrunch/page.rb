@@ -13,5 +13,14 @@ module AbCrunch
 
       url
     end
+
+    def self.get_display_url(page)
+      if page[:url].respond_to? :call
+        return "Dynamic url example: #{page[:url].call}"
+      else
+        page[:url]
+      end
+    end
+
   end
 end

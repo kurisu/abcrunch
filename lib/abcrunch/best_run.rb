@@ -9,7 +9,7 @@ module AbCrunch
       min_response_result = nil
       num_runs.times do
         abr = AbCrunch::AbRunner.ab(ab_options)
-        AbCrunch::Logger.log :info, "#{abr.avg_response_time} ... ", {:inline => true}
+        AbCrunch::Logger.log :info, "Average response time: #{abr.avg_response_time} (ms) "
         if abr.avg_response_time < min_response_time
           min_response_time = abr.avg_response_time
           min_response_result = abr

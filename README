@@ -18,14 +18,17 @@ to be just informational, or to fail when specified standards are not met.  The 
 tasks can then be added to our Continuous Integration (CI) builds, so builds fail when
 performance degrades.
 
+
 Credits
     Chris Lichti, Author
     Aaron Hopkins, adviser / contributed strategies
     John Williams, adviser / contributed strategies
 
+
 Prerequisites
 
     Must have Apache Bench installed and 'ab' on your path
+
 
 Quick Start Guide
 
@@ -73,6 +76,7 @@ Quick Start Guide
        - or -
       rake abcrunch:all
 
+
 Configuring Pages
 
     :name  - (required) User-friendly name for the page.
@@ -89,6 +93,48 @@ Configuring Pages
         :num_requests  - how many requests to make during each (of many) runs [Default: 50]
         :max_latency  - global maximum latency (in ms) considered to be acceptable [Default: 1000]
         :max_degradation_percent  - global max percent latency can degrade before being considered unacceptable [Default: 0.5 (iow 50%)]
+
+
+Example: Iterative Optimization
+  Running a focus load test to iterate fixing a performance issue.
+
+    If a specific page is too slow, you can iterate on that page using a focus rake task, like so:
+
+        rake abcrunch:dev:focus[3]
+
+
+Example: Configuring the same URLS in multiple environments (dev, qa, staging, prod...)
+
+    Here's an example showing how you might dry up the AbCrunch configuration to support multiple environments.
+
+    def init_env
+      if ['development', 'test'].include? RAILS_ENV
+        require 'abcrunch'
+        AbCrunch::Config.page_sets = ab_crunch_page_sets
+      end
+    end
+
+    def ab_crunch_page_sets
+      {
+        :dev => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://localhost:3000' ; page },
+        :qa => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://qa.myapp.com' ; page },
+        :staging => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://staging.myapp.com' ; page },
+        :prod => AB_CRUNCH_PAGE_SET_TEMPLATE.collect { |page| page[:url].gsub! '<domain>', 'http://www.myapp.com' ; page },
+      }
+    end
+
+    AB_CRUNCH_PAGE_SET_TEMPLATE = [
+      {
+        :name => "Home",
+        :url => "<domain>/",
+        :min_queries_per_second => 50,
+      },
+      {
+        :name => "Blog",
+        :url => "<domain>/blog?user=honest_auto",
+        :max_avg_response_time => 450,
+      }
+    ]
 
 
 KNOWN GOTCHA: Apache Bench does not like urls that just end with the domain.  For example:

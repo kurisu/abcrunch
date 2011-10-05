@@ -17,7 +17,7 @@ module AbCrunch
     }
 
     @page_sets = {
-      :default => [
+      :localhost => [
         {
           :name => 'localhost',
           :url => 'http://localhost:3000/',

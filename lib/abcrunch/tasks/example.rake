@@ -3,7 +3,7 @@ namespace :abcrunch do
   desc "Test example pages"
   task :example do
     AbCrunch::Config.page_sets = @sample_page_sets
-    Rake::Task['abcrunch:load_test:sample_1'].invoke
+    Rake::Task['abcrunch:sample_1'].invoke
   end
 
   @sample_page_sets = {

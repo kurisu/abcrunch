@@ -69,9 +69,9 @@ Quick Start Guide
 
     Once you've configured Ab Crunch, you can run rake tasks to load test your pages, like this:
 
-      rake abcrunch:load_test:staging
+      rake abcrunch:staging
        - or -
-      rake abcrunch:load_test:all
+      rake abcrunch:all
 
 Configuring Pages
 

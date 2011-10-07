@@ -12,7 +12,7 @@ module AbCrunch
       options = validate_options(options)
       url = AbCrunch::Page.get_url(options, true)
       AbCrunch::Logger.log(:info, "Calling ab on:  #{url}")
-      "ab -c #{options[:concurrency]} -n #{options[:num_requests]} #{url}"
+      "ab -c #{options[:concurrency]} -n #{options[:num_requests]} -k -H 'Accept-Encoding: gzip' #{url}"
     end
 
     def self.ab(options)

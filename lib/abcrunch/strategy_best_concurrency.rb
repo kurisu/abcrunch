@@ -19,9 +19,13 @@ module AbCrunch
         fmc_page[:concurrency] += 1
         prev_result = abr
         abr = AbCrunch::BestRun.of_avg_response_time(fmc_page[:num_concurrency_runs], fmc_page)
-      end while abr.avg_response_time < threshold_ms
-      fmc_page[:concurrency] -= 1
-      prev_result || baseline_result
+      end while abr.avg_response_time < threshold_ms and fmc_page[:concurrency] < fmc_page[:num_requests]
+      if abr.avg_response_time < threshold_ms
+        return abr || baseline_result
+      else
+        fmc_page[:concurrency] -= 1
+        return prev_result || baseline_result
+      end
     end
 
     def self.run(page)

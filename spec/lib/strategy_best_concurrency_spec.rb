@@ -57,37 +57,68 @@ describe "AbCrunch::StrategyBestConcurrency" do
       stub(AbCrunch::Logger).log
     end
 
-    it "should return the ab result for the run with the highest concurrency before response time degrades" do
-      input_page = AbCrunch::Config.best_concurrency_options.merge(@test_page).merge({:num_concurrency_runs => 3})
-      test_page_1 = input_page.clone.merge({:concurrency => 1})
-      test_result_1 = @fake_result.clone
-      test_result_1.ab_options = test_page_1
+    describe "when performance degrades" do
+      it "should return the ab result for the run with the highest concurrency before response time degrades" do
+        input_page = AbCrunch::Config.best_concurrency_options.merge(@test_page).merge({:num_concurrency_runs => 3})
+        test_page_1 = input_page.clone.merge({:concurrency => 1})
+        test_result_1 = @fake_result.clone
+        test_result_1.ab_options = test_page_1
 
-      test_page_2 = input_page.clone.merge({:concurrency => 2})
-      test_result_2 = @fake_result.clone
-      test_result_2.ab_options = test_page_2
+        test_page_2 = input_page.clone.merge({:concurrency => 2})
+        test_result_2 = @fake_result.clone
+        test_result_2.ab_options = test_page_2
 
-      test_page_3 = input_page.clone.merge({:concurrency => 3})
-      desired_result = @fake_result.clone
-      desired_result.ab_options = test_page_3
-      stub(desired_result).avg_response_time { 90.3 }
+        test_page_3 = input_page.clone.merge({:concurrency => 3})
+        desired_result = @fake_result.clone
+        desired_result.ab_options = test_page_3
+        stub(desired_result).avg_response_time { 90.3 }
 
-      test_page_4 = input_page.clone.merge({:concurrency => 4})
-      degraded_result = @fake_result.clone
-      degraded_result.ab_options = test_page_4
-      stub(degraded_result).avg_response_time { 9999.3 }
+        test_page_4 = input_page.clone.merge({:concurrency => 4})
+        degraded_result = @fake_result.clone
+        degraded_result.ab_options = test_page_4
+        stub(degraded_result).avg_response_time { 9999.3 }
 
-      stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_1) { test_result_1 }
-      stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_2) { test_result_2 }
-      stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_3) { desired_result }
-      stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_4) { degraded_result }
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_1) { test_result_1 }
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_2) { test_result_2 }
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_3) { desired_result }
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_4) { degraded_result }
 
-      result = AbCrunch::StrategyBestConcurrency.find_best_concurrency(input_page, @fake_result)
+        result = AbCrunch::StrategyBestConcurrency.find_best_concurrency(input_page, @fake_result)
 
-      result.ab_options[:concurrency].should == 3
-      result.avg_response_time.should == 90.3
-      result.should == desired_result
+        result.ab_options[:concurrency].should == 3
+        result.avg_response_time.should == 90.3
+        result.should == desired_result
+      end
     end
+
+    describe "when concurrency exceeds num requests before performance degrades" do
+      it "should return the latest result" do
+        input_page = AbCrunch::Config.best_concurrency_options.merge(@test_page).merge({:num_concurrency_runs => 3, :num_requests => 3})
+        test_page_1 = input_page.clone.merge({:concurrency => 1})
+        test_result_1 = @fake_result.clone
+        test_result_1.ab_options = test_page_1
+
+        test_page_2 = input_page.clone.merge({:concurrency => 2})
+        test_result_2 = @fake_result.clone
+        test_result_2.ab_options = test_page_2
+
+        test_page_3 = input_page.clone.merge({:concurrency => 3})
+        desired_result = @fake_result.clone
+        desired_result.ab_options = test_page_3
+        stub(desired_result).avg_response_time { 90.3 }
+
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_1) { test_result_1 }
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_2) { test_result_2 }
+        stub(AbCrunch::BestRun).of_avg_response_time(3, test_page_3) { desired_result }
+
+        result = AbCrunch::StrategyBestConcurrency.find_best_concurrency(input_page, @fake_result)
+
+        result.ab_options[:concurrency].should == 3
+        result.avg_response_time.should == 90.3
+        result.should == desired_result
+      end
+    end
+
   end
 
 end

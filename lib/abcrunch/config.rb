@@ -13,7 +13,7 @@ module AbCrunch
 
     @ab_options = {
       :concurrency => 1,
-      :num_requests => 50
+      :num_requests => 100
     }
 
     @page_sets = {

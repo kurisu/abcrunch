@@ -51,7 +51,7 @@ describe "AbCrunch::StrategyBestConcurrency" do
   
   describe "#find_best_concurrency" do
     before :each do
-      @test_page = AbCrunchSpec.new_page
+      @test_page = AbCrunchSpec.new_page({:num_requests => 50})
       @fake_result = AbCrunchSpec.new_result
 
       stub(AbCrunch::Logger).log

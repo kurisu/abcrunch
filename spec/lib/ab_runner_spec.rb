@@ -23,7 +23,7 @@ describe "AbRunner" do
       }
       mock.proxy(AbCrunch::Page).get_url(options, true)
 
-      AbCrunch::AbRunner.ab_command(options).should == 'ab -c thigh master -n i can only do 5 today 5 minute abs'
+      AbCrunch::AbRunner.ab_command(options).should == "ab -c thigh master -n i can only do 5 today -k -H 'Accept-Encoding: gzip' 5 minute abs"
     end
   end
 

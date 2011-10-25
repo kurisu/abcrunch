@@ -7,9 +7,13 @@ Gem::Specification.new do |s|
   s.version     = AbCrunch::VERSION
   s.authors     = ["Chris Lichti"]
   s.email       = ["kai@truecar.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/kurisu/abcrunch"
   s.summary     = "Automated load testing in ruby"
   s.description = <<-DESC
+The idea behind Ab Crunch is that basic performance metrics and standards should
+be effortless, first-class citizens in the development process, with frequent visibility
+and immediate feedback when performance issues are introduced.
+
 Ab Crunch uses Apache Bench to run various strategies for load testing web projects,
 and provides rake tasks for analyzing performance and enforcing performance
 standards on CI.

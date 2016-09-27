@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'log_console_writer')
+
 module AbCrunch
   module Logger
     class << self
